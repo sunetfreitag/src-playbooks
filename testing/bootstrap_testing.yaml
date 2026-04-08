@@ -1,0 +1,44 @@
+---
+- name: Playbook for testing and debugging
+  become: true
+  hosts: localhost
+  tasks:
+    - name: Get regular user
+      command: whoami
+      register: regular_user
+
+    - name: Print username
+      ansible.builtin.debug:
+        msg: "Username executing ansible: {{ regular_user.stdout }}"
+
+    - name: Get hostname
+      command: hostname
+      register: raw_hostname
+
+    - name: Print hostname
+      ansible.builtin.debug:
+        msg: "Hostname: {{ raw_hostname.stdout }}"
+
+    - name: Save rcloneui hostname in variable
+      ansible.builtin.set_fact:
+        rcloneui_hostname: "{{ raw_hostname.stdout | replace('-','.') }}"
+
+    - name: Print testing fixed Value
+      become: true
+      ansible.builtin.debug:
+        msg: "Value of testing_fixed_value: {{ testing_fixed_value }}"
+
+    - name: Print testing secret variable
+      become: true
+      ansible.builtin.debug:
+        msg: "Value of testing_secret_var: {{ testing_secret_var }}"
+
+    - name: Print testing resource parameter
+      become: true
+      ansible.builtin.debug:
+        msg: "Value of testing_resource_parameter: {{ testing_resource_parameter }}"
+
+    - name: Print testing workspace name
+      become: true
+      ansible.builtin.debug:
+        msg: "Value of default_testing_workspace_name: {{ default_testing_workspace_name }}"
