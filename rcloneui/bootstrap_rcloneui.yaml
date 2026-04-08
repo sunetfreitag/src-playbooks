@@ -2,36 +2,10 @@
 - name: Install Rclone UI on SRC Virtual Machine
   become: true
   hosts: localhost
-  # hosts: allhosts
   vars:
     rcloneui_user: "rclone"
     rcloneui_group: "rclone"
   tasks:
-    # - name: Get s3 access key
-    #   set_fact:
-    #     s3_access_key_id: "{{ lookup('ansible.builtin.env', 's3_access_key_id') }}"
-    # - name: Get s3 endpoint
-    #   set_fact:
-    #     s3_endpoint: " {{ lookup('ansible.builtin.env', 's3_endpoint') }}"
-    # - name: Get s3 secret
-    #   set_fact:
-    #     s3_secret_access_key: "{{ lookup('ansible.builtin.env', 's3_secret_access_key') }}"
-
-    # - name: Get nextcloud user
-    #   set_fact:
-    #     nextcloud_user: "{{ lookup('ansible.builtin.env', 'nextcloud_user') }}"
-    # - name: Get nextcloud application password
-    #   set_fact:
-    #     nextcloud_pass: " {{ lookup('ansible.builtin.env', 'nextcloud_pass') }}"
-    # - name: Get nextcloud url
-    #   set_fact:
-    #     nextcloud_url: "{{ lookup('ansible.builtin.env', 'nextcloud_url') }}"
-
-    # # For some reason, there might be a whitespace at the beginning of the variable, which can mess up calling rclone config later
-    # - name: Remove single white spaces
-    #   set_fact:
-    #     nextcloud_pass: "{{ nextcloud_pass | regex_replace(' ', '') }}"
-
     - name: Get regular user
       command: whoami
       register: regular_user
@@ -128,6 +102,31 @@
         state: directory
         owner: "{{ rcloneui_user }}"
         group: "{{ rcloneui_user }}"
+
+    # - name: Get s3 access key
+    #   set_fact:
+    #     s3_access_key_id: "{{ lookup('ansible.builtin.env', 's3_access_key_id') }}"
+    # - name: Get s3 endpoint
+    #   set_fact:
+    #     s3_endpoint: " {{ lookup('ansible.builtin.env', 's3_endpoint') }}"
+    # - name: Get s3 secret
+    #   set_fact:
+    #     s3_secret_access_key: "{{ lookup('ansible.builtin.env', 's3_secret_access_key') }}"
+
+    # - name: Get nextcloud user
+    #   set_fact:
+    #     nextcloud_user: "{{ lookup('ansible.builtin.env', 'nextcloud_user') }}"
+    # - name: Get nextcloud application password
+    #   set_fact:
+    #     nextcloud_pass: " {{ lookup('ansible.builtin.env', 'nextcloud_pass') }}"
+    # - name: Get nextcloud url
+    #   set_fact:
+    #     nextcloud_url: "{{ lookup('ansible.builtin.env', 'nextcloud_url') }}"
+
+    # # For some reason, there might be a whitespace at the beginning of the variable, which can mess up calling rclone config later
+    # - name: Remove single white spaces
+    #   set_fact:
+    #     nextcloud_pass: "{{ nextcloud_pass | regex_replace(' ', '') }}"
 
     # - name: Create rclone s3 configuration
     #   become: true
