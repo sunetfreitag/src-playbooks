@@ -27,10 +27,10 @@
     #   set_fact:
     #     nextcloud_url: "{{ lookup('ansible.builtin.env', 'nextcloud_url') }}"
 
-    # For some reason, there might be a whitespace at the beginning of the variable, which can mess up calling rclone config later
-    - name: Remove single white spaces
-      set_fact:
-        nextcloud_pass: "{{ nextcloud_pass | regex_replace(' ', '') }}"
+    # # For some reason, there might be a whitespace at the beginning of the variable, which can mess up calling rclone config later
+    # - name: Remove single white spaces
+    #   set_fact:
+    #     nextcloud_pass: "{{ nextcloud_pass | regex_replace(' ', '') }}"
 
     - name: Get regular user
       command: whoami
