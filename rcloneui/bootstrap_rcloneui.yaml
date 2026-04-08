@@ -1,8 +1,8 @@
 ---
 - name: Install Rclone UI on SRC Virtual Machine
+  become: true
   hosts: localhost
   # hosts: allhosts
-  # become: true
   vars:
     rcloneui_user: "rclone"
     rcloneui_group: "rclone"
