@@ -129,12 +129,12 @@
         owner: "{{ rcloneui_user }}"
         group: "{{ rcloneui_user }}"
 
-    - name: Create rclone s3 configuration
-      become: true
-      become_user: "{{ rcloneui_user }}"
-      shell: rclone config create s3 s3 provider "Ceph" access_key_id "{{ s3_access_key_id }}" secret_access_key "{{ s3_secret_access_key }}" endpoint "{{ s3_endpoint }}"
+    # - name: Create rclone s3 configuration
+    #   become: true
+    #   become_user: "{{ rcloneui_user }}"
+    #   shell: rclone config create s3 s3 provider "Ceph" access_key_id "{{ s3_access_key_id }}" secret_access_key "{{ s3_secret_access_key }}" endpoint "{{ s3_endpoint }}"
 
-    - name: Create rclone nextcloud/webdav configuration
-      become: true
-      become_user: "{{ rcloneui_user }}"
-      shell: rclone config create nextcloud webdav vendor "nextcloud" user "{{ nextcloud_user }}" pass "{{ nextcloud_pass }}" url "{{ nextcloud_url }}"
+    # - name: Create rclone nextcloud/webdav configuration
+    #   become: true
+    #   become_user: "{{ rcloneui_user }}"
+    #   shell: rclone config create nextcloud webdav vendor "nextcloud" user "{{ nextcloud_user }}" pass "{{ nextcloud_pass }}" url "{{ nextcloud_url }}"
