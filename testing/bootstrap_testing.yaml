@@ -32,13 +32,3 @@
       become: true
       ansible.builtin.debug:
         msg: "Value of testing_secret_var: {{ testing_secret_var }}"
-
-    - name: Print testing resource parameter
-      become: true
-      ansible.builtin.debug:
-        msg: "Value of testing_resource_parameter: {{ testing_resource_parameter }}"
-
-    - name: Print testing workspace name
-      become: true
-      ansible.builtin.debug:
-        msg: "Value of default_testing_workspace_name: {{ default_testing_workspace_name }}"
