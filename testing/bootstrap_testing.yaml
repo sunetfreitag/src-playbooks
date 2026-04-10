@@ -1,6 +1,5 @@
 ---
 - name: Playbook for testing and debugging
-  become: true
   hosts: localhost
   tasks:
     - name: Get regular user
@@ -24,11 +23,9 @@
         rcloneui_hostname: "{{ raw_hostname.stdout | replace('-','.') }}"
 
     - name: Print testing fixed Value
-      become: true
       ansible.builtin.debug:
         msg: "Value of testing_fixed_value: {{ testing_fixed_value }}"
 
     - name: Print testing secret variable
-      become: true
       ansible.builtin.debug:
         msg: "Value of testing_secret_var: {{ testing_secret_var }}"
