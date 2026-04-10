@@ -22,10 +22,10 @@
       ansible.builtin.set_fact:
         rcloneui_hostname: "{{ raw_hostname.stdout | replace('-','.') }}"
 
-    - name: Print testing fixed Value
-      ansible.builtin.debug:
-        msg: "Value of testing_fixed_value: {{ testing_fixed_value }}"
+    - name: Write variables into files
+      become: true
+      shell: echo "{{ testing_fixed_value }}" > ~/testing_fixed_value
 
-    - name: Print testing secret variable
-      ansible.builtin.debug:
-        msg: "Value of testing_secret_var: {{ testing_secret_var }}"
+    - name: Write variables into files
+      become: true
+      shell: echo "{{ testing_secret_var }}" > ~/testing_secret_var
