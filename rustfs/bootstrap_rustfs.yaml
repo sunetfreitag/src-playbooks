@@ -1,7 +1,7 @@
 ---
 - name: Install RustFS on SRC Virtual Machine
   become: true
-  hosts: allhosts
+  hosts: localhost
   vars:
     src_user: "src-user"
   tasks:
