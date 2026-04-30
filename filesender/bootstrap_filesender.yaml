@@ -7,7 +7,7 @@
     filesender_branch: "development"
     filesender_app_dir: "~/filesender"
     filesender_dev_dir: "~/filesender_dev"
-    src_user: "src_user"
+    src_user: "src-user"
   tasks:
     - name: Get regular user
       command: whoami
@@ -85,7 +85,7 @@
         path: /var/run/docker.sock
         mode: "0666"
 
-    - name: Add the user 'src_user' with a bash shell, appending the group 'admins' and 'developers' to the user's groups
+    - name: Add the user 'src_user' with a bash shell, member of group 'docker'
       ansible.builtin.user:
         name: "{{ src_user }}"
         shell: /bin/bash
