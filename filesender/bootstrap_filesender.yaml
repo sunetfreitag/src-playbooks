@@ -7,7 +7,7 @@
     filesender_branch: "development"
     filesender_app_dir: "~/filesender"
     filesender_dev_dir: "~/filesender_dev"
-    filesender_user: "filesender"
+    src_user: "src_user"
   tasks:
     - name: Get regular user
       command: whoami
@@ -26,12 +26,12 @@
 
     - name: Delete repos if they already exist
       file:
-        path: "/home/{{ filesender_user }}/filesender"
+        path: "/home/{{ src_user }}/filesender"
         state: absent
 
     - name: Delete repos if they already exist
       file:
-        path: "/home/{{ filesender_user }}/filesender_dev"
+        path: "/home/{{ src_user }}/filesender_dev"
         state: absent
 
     - name: Update apt package index
@@ -87,7 +87,7 @@
 
     - name: Add the user 'james' with a bash shell, appending the group 'admins' and 'developers' to the user's groups
       ansible.builtin.user:
-        name: "{{ filesender_user }}"
+        name: "{{ src_user }}"
         shell: /bin/bash
         groups: docker
         append: yes
@@ -95,13 +95,13 @@
 
     - name: Add the filesender user to the docker group
       ansible.builtin.user:
-        name: "{{ filesender_user }}"
+        name: "{{ src_user }}"
         groups: docker
         append: yes
 
     - name: Clone FileSender repository
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       git:
         repo: "{{ filesender_repo }}"
         dest: "{{ filesender_dev_dir }}"
@@ -110,7 +110,7 @@
 
     - name: Clone FileSender repository
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       git:
         repo: "{{ filesender_repo }}"
         dest: "{{ filesender_app_dir }}"
@@ -119,28 +119,28 @@
 
     - name: Add filesender upstream
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       ansible.builtin.command:
         cmd: git remote add upstream https://github.com/filesender/filesender.git
         chdir: "{{ filesender_app_dir }}"
 
     - name: Fetch filesender upstream
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       ansible.builtin.command:
         cmd: git fetch upstream
         chdir: "{{ filesender_app_dir }}"
 
     - name: Checkout filesender development3
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       ansible.builtin.command:
         cmd: git checkout -b development3 upstream/development3
         chdir: "{{ filesender_app_dir }}"
 
     - name: Copy header auth class
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       ansible.builtin.copy:
         src: "{{ filesender_dev_dir }}/classes/auth/AuthSPHeader.class.php"
         dest: "{{ filesender_app_dir }}/classes/auth/AuthSPHeader.class.php"
@@ -148,7 +148,7 @@
 
     - name: Copy filesender-config.js.php
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       ansible.builtin.copy:
         src: "{{ filesender_dev_dir }}/docker/filesender-config.js.php"
         dest: "{{ filesender_app_dir }}/docker/filesender-config.js.php"
@@ -156,7 +156,7 @@
 
     - name: Copy .env.example
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       ansible.builtin.copy:
         src: "~/filesender/docker/.env.example"
         dest: "~/filesender/docker/.env"
@@ -164,7 +164,7 @@
 
     - name: Replace http with https in .env
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       ansible.builtin.replace:
         path: ~/filesender/docker/.env
         regexp: "http://"
@@ -172,7 +172,7 @@
 
     - name: Replace localhost.localdomain with {{ filesender_hostname }} in .env
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       ansible.builtin.replace:
         path: ~/filesender/docker/.env
         regexp: "localhost.localdomain"
@@ -180,7 +180,7 @@
 
     - name: Replace localhost with {{ filesender_hostname }} in .env
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       ansible.builtin.replace:
         path: ~/filesender/docker/.env
         regexp: "localhost"
@@ -188,7 +188,7 @@
 
     - name: Replace version 3.3 with localdev in .env
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       ansible.builtin.replace:
         path: ~/filesender/docker/.env
         regexp: "3.3"
@@ -196,21 +196,21 @@
 
     - name: Copy local docker compose file
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       ansible.builtin.copy:
         src: "./overlay/docker-compose.yml"
         dest: "~/filesender/docker/docker-compose.yml"
 
     - name: Copy local docker file
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       ansible.builtin.copy:
         src: "./overlay/Dockerfile"
         dest: "~/filesender/docker/Dockerfile"
 
     - name: Copy local Makefile
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       ansible.builtin.copy:
         src: "{{ filesender_dev_dir }}/docker/Makefile"
         dest: "{{ filesender_app_dir }}/docker/Makefile"
@@ -218,14 +218,14 @@
 
     - name: Copy filesender config file
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       ansible.builtin.copy:
         src: "./overlay/config.php"
         dest: "~/filesender/docker/assets/opt/filesender/filesender/config/config.php"
 
     - name: Replace localhost.localdomain with {{ filesender_hostname }} in config.php
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       ansible.builtin.replace:
         path: "~/filesender/docker/assets/opt/filesender/filesender/config/config.php"
         regexp: "localhost.localdomain"
@@ -233,7 +233,7 @@
 
     - name: Replace localhost with {{ filesender_hostname }} in config.php
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       ansible.builtin.replace:
         path: "~/filesender/docker/assets/opt/filesender/filesender/config/config.php"
         regexp: "localhost"
@@ -241,7 +241,7 @@
 
     - name: Filesender make firstrun - this might take some time
       become: true
-      become_user: "{{ filesender_user }}"
+      become_user: "{{ src_user }}"
       make:
         chdir: "~/filesender/docker/"
         target: firstrun
