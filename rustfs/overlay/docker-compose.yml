@@ -1,0 +1,24 @@
+services:
+  rustfs:
+    container_name: rustfs
+    ports:
+      - 9000:9000
+      - 9001:9001
+    volumes:
+      - /data:/data
+      - /var/log/rustfs:/logs
+    image: rustfs/rustfs:latest
+    environment:
+      - RUSTFS_ACCESS_KEY=rustfsadmin
+      - RUSTFS_SECRET_KEY=rustfsadmin
+      - RUSTFS_VOLUMES=/data
+      - RUSTFS_CONSOLE_ENABLE=true
+      - RUSTFS_CONSOLE_ADDRESS=0.0.0.0:9001
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    security_opt:
+      - "no-new-privileges:true"
