@@ -85,7 +85,7 @@
         path: /var/run/docker.sock
         mode: "0666"
 
-    - name: Add the user 'james' with a bash shell, appending the group 'admins' and 'developers' to the user's groups
+    - name: Add the user 'src_user' with a bash shell, appending the group 'admins' and 'developers' to the user's groups
       ansible.builtin.user:
         name: "{{ src_user }}"
         shell: /bin/bash
